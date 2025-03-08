@@ -18,10 +18,11 @@ interface SizeAnalysisData {
 
 interface SizeAnalysisStepProps {
   data: SizeAnalysisData;
+  gender: string; // Added gender prop
   onUpdate: (data: Partial<SizeAnalysisData>) => void;
 }
 
-const SizeAnalysisStep = ({ data, onUpdate }: SizeAnalysisStepProps) => {
+const SizeAnalysisStep = ({ data, gender, onUpdate }: SizeAnalysisStepProps) => {
   const [height, setHeight] = useState(data.height || '');
   const [weight, setWeight] = useState(data.weight || '');
   const [measurements, setMeasurements] = useState<Measurements>(data.measurements || { bust: '', waist: '', hips: '' });
@@ -41,15 +42,25 @@ const SizeAnalysisStep = ({ data, onUpdate }: SizeAnalysisStepProps) => {
       
       // Simulate AI size calculation
       setTimeout(() => {
-        const recommendedSizes = {
-          'Tops': 'Medium',
-          'Bottoms': 'Small',
-          'Dresses': 'Medium',
-          'Outerwear': 'Medium',
-          'Shirts': 'Medium (US 8)',
-          'Pants': 'Small (US 6)',
-          'Skirts': 'Small (US 6)',
-        };
+        // Use gender to customize recommendations
+        const recommendedSizes = gender === 'male' ? 
+          {
+            'Tops': 'Medium',
+            'Bottoms': 'Medium',
+            'Outerwear': 'Medium',
+            'Shirts': 'Medium (US 15)',
+            'Pants': 'Medium (US 32)',
+            'Suits': 'Regular 40',
+          } : 
+          {
+            'Tops': 'Medium',
+            'Bottoms': 'Small',
+            'Dresses': 'Medium',
+            'Outerwear': 'Medium',
+            'Shirts': 'Medium (US 8)',
+            'Pants': 'Small (US 6)',
+            'Skirts': 'Small (US 6)',
+          };
         
         onUpdate({ 
           height: h,
@@ -72,6 +83,9 @@ const SizeAnalysisStep = ({ data, onUpdate }: SizeAnalysisStepProps) => {
       onUpdate({ completed: true });
     }
   }, []);
+  
+  // Label text based on gender
+  const chestLabel = gender === 'male' ? 'Chest' : 'Bust';
   
   return (
     <div className="space-y-8">
@@ -129,7 +143,7 @@ const SizeAnalysisStep = ({ data, onUpdate }: SizeAnalysisStepProps) => {
           <div className="space-y-4 border-l border-fashion-neutral-200 pl-6">
             <div>
               <label className="block text-sm font-medium text-fashion-neutral-700 mb-1">
-                Bust/Chest
+                {chestLabel}
               </label>
               <div className="relative">
                 <input
