@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { Heart } from 'lucide-react';
+import { Heart, Check } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface StylePreferencesData {
   primaryStyle: string;
@@ -18,20 +19,54 @@ interface StylePreferencesStepProps {
 }
 
 const styleOptions = [
-  { value: 'minimal', label: 'Minimal', description: 'Clean lines, neutral colors, simple silhouettes' },
-  { value: 'classic', label: 'Classic', description: 'Timeless pieces, structured silhouettes, neutral palette' },
-  { value: 'bohemian', label: 'Bohemian', description: 'Flowy fabrics, patterns, earthy tones, layered looks' },
-  { value: 'streetwear', label: 'Streetwear', description: 'Urban, casual, comfortable, logo-focused' },
-  { value: 'preppy', label: 'Preppy', description: 'Tailored, clean-cut, collegiate-inspired' },
-  { value: 'romantic', label: 'Romantic', description: 'Soft, feminine, floral patterns, delicate details' },
-  { value: 'edgy', label: 'Edgy', description: 'Dark colors, leather, statement pieces, unconventional' },
-  { value: 'athleisure', label: 'Athleisure', description: 'Athletic-inspired, comfortable, functional' }
-];
-
-const popularBrands = [
-  'Zara', 'H&M', 'COS', 'Uniqlo', 'Mango', 'Nike', 'Adidas', 
-  'Reformation', 'Everlane', 'Aritzia', 'Anthropologie', 'Madewell',
-  'Levi\'s', 'Urban Outfitters', 'Free People', '& Other Stories'
+  { 
+    value: 'minimal', 
+    label: 'Minimal', 
+    description: 'Clean lines, neutral colors, simple silhouettes',
+    imageUrl: 'https://images.unsplash.com/photo-1609505848912-b7c3b8b4beda?auto=format&fit=crop&q=80&w=300&h=400'
+  },
+  { 
+    value: 'classic', 
+    label: 'Classic', 
+    description: 'Timeless pieces, structured silhouettes, neutral palette',
+    imageUrl: 'https://images.unsplash.com/photo-1608234807905-4466023792f5?auto=format&fit=crop&q=80&w=300&h=400'
+  },
+  { 
+    value: 'bohemian', 
+    label: 'Bohemian', 
+    description: 'Flowy fabrics, patterns, earthy tones, layered looks',
+    imageUrl: 'https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?auto=format&fit=crop&q=80&w=300&h=400'
+  },
+  { 
+    value: 'streetwear', 
+    label: 'Streetwear', 
+    description: 'Urban, casual, comfortable, logo-focused',
+    imageUrl: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=300&h=400'
+  },
+  { 
+    value: 'preppy', 
+    label: 'Preppy', 
+    description: 'Tailored, clean-cut, collegiate-inspired',
+    imageUrl: 'https://images.unsplash.com/photo-1617059322432-50dbd8d02ef1?auto=format&fit=crop&q=80&w=300&h=400'
+  },
+  { 
+    value: 'romantic', 
+    label: 'Romantic', 
+    description: 'Soft, feminine, floral patterns, delicate details',
+    imageUrl: 'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=300&h=400'
+  },
+  { 
+    value: 'edgy', 
+    label: 'Edgy', 
+    description: 'Dark colors, leather, statement pieces, unconventional',
+    imageUrl: 'https://images.unsplash.com/photo-1536766820879-059fec98ec0a?auto=format&fit=crop&q=80&w=300&h=400'
+  },
+  { 
+    value: 'athleisure', 
+    label: 'Athleisure', 
+    description: 'Athletic-inspired, comfortable, functional',
+    imageUrl: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=300&h=400'
+  }
 ];
 
 const colorOptions = [
@@ -43,29 +78,17 @@ const colorOptions = [
   { value: 'olive', label: 'Olive', color: '#556B2F' },
   { value: 'pink', label: 'Pink', color: '#FFC0CB' },
   { value: 'red', label: 'Red', color: '#FF0000' },
-  { value: 'blue', label: 'Blue', color: '#0000FF' },
-  { value: 'green', label: 'Green', color: '#008000' },
-  { value: 'yellow', label: 'Yellow', color: '#FFFF00' },
-  { value: 'purple', label: 'Purple', color: '#800080' },
 ];
 
-const patternOptions = [
-  'Solid', 'Stripes', 'Floral', 'Polka Dots', 'Geometric', 
-  'Animal Print', 'Plaid/Check', 'Abstract', 'Tie-Dye'
-];
-
-const accessoryOptions = [
-  'Scarves', 'Statement Earrings', 'Delicate Necklaces', 'Stacked Rings',
-  'Belts', 'Hats', 'Watches', 'Sunglasses', 'Hair Accessories', 'Bracelets'
+const popularBrands = [
+  'Zara', 'H&M', 'COS', 'Uniqlo', 'Mango', 'Nike', 'Adidas', 
+  'Reformation', 'Everlane', 'Aritzia'
 ];
 
 const StylePreferencesStep = ({ data, onUpdate }: StylePreferencesStepProps) => {
   const [primaryStyle, setPrimaryStyle] = useState(data.primaryStyle);
   const [secondaryStyles, setSecondaryStyles] = useState<string[]>(data.secondaryStyles || []);
   const [favoriteColors, setFavoriteColors] = useState<string[]>(data.favoriteColors || []);
-  const [favoritePatterns, setFavoritePatterns] = useState<string[]>(data.favoritePatterns || []);
-  const [favoriteAccessories, setFavoriteAccessories] = useState<string[]>(data.favoriteAccessories || []);
-  const [brandsInput, setBrandsInput] = useState('');
   const [selectedBrands, setSelectedBrands] = useState<string[]>(data.brandsLiked || []);
   
   const handleStyleSelect = (style: string) => {
@@ -91,27 +114,10 @@ const StylePreferencesStep = ({ data, onUpdate }: StylePreferencesStepProps) => 
     checkCompletion(primaryStyle, secondaryStyles, newColors, selectedBrands);
   };
   
-  const togglePattern = (pattern: string) => {
-    const newPatterns = favoritePatterns.includes(pattern)
-      ? favoritePatterns.filter(p => p !== pattern)
-      : [...favoritePatterns, pattern];
-    
-    setFavoritePatterns(newPatterns);
-  };
-  
-  const toggleAccessory = (accessory: string) => {
-    const newAccessories = favoriteAccessories.includes(accessory)
-      ? favoriteAccessories.filter(a => a !== accessory)
-      : [...favoriteAccessories, accessory];
-    
-    setFavoriteAccessories(newAccessories);
-  };
-  
-  const addBrand = () => {
-    if (brandsInput.trim() && !selectedBrands.includes(brandsInput.trim())) {
-      const newBrands = [...selectedBrands, brandsInput.trim()];
+  const selectPopularBrand = (brand: string) => {
+    if (!selectedBrands.includes(brand)) {
+      const newBrands = [...selectedBrands, brand];
       setSelectedBrands(newBrands);
-      setBrandsInput('');
       checkCompletion(primaryStyle, secondaryStyles, favoriteColors, newBrands);
     }
   };
@@ -122,29 +128,19 @@ const StylePreferencesStep = ({ data, onUpdate }: StylePreferencesStepProps) => 
     checkCompletion(primaryStyle, secondaryStyles, favoriteColors, newBrands);
   };
   
-  const selectPopularBrand = (brand: string) => {
-    if (!selectedBrands.includes(brand)) {
-      const newBrands = [...selectedBrands, brand];
-      setSelectedBrands(newBrands);
-      checkCompletion(primaryStyle, secondaryStyles, favoriteColors, newBrands);
-    }
-  };
-  
   const checkCompletion = (
     primary: string, 
     secondary: string[], 
     colors: string[], 
     brands: string[]
   ) => {
-    const isComplete = !!primary && secondary.length > 0 && colors.length > 0;
+    const isComplete = !!primary && secondary.length > 0;
     
     if (isComplete) {
       onUpdate({
         primaryStyle: primary,
         secondaryStyles: secondary,
         favoriteColors: colors,
-        favoritePatterns,
-        favoriteAccessories,
         brandsLiked: brands,
         completed: true
       });
@@ -163,150 +159,117 @@ const StylePreferencesStep = ({ data, onUpdate }: StylePreferencesStepProps) => 
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-fashion-neutral-900">Primary Style</h3>
+        <h3 className="text-lg font-medium text-fashion-neutral-900">Your Style Identity</h3>
         <p className="text-sm text-fashion-neutral-600">
-          Choose the style that best represents your fashion identity.
+          Select the style that resonates most with your fashion identity.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {styleOptions.map((style) => (
-            <button
+            <motion.div
               key={style.value}
+              whileHover={{ scale: 1.03 }}
               className={`
-                text-left p-4 rounded-lg border-2 transition-all
+                relative rounded-lg overflow-hidden border-2 cursor-pointer transition-all
                 ${primaryStyle === style.value 
-                  ? 'border-fashion-neutral-900 bg-fashion-neutral-50' 
+                  ? 'border-fashion-neutral-900 shadow-md' 
                   : 'border-fashion-neutral-200 hover:border-fashion-neutral-300'}
               `}
               onClick={() => handleStyleSelect(style.value)}
             >
-              <div className="flex items-center justify-between">
-                <span className="text-fashion-neutral-900 font-medium">{style.label}</span>
+              <div className="aspect-[3/4]">
+                <img 
+                  src={style.imageUrl} 
+                  alt={style.label}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-3">
+                  <h4 className="text-white font-medium">{style.label}</h4>
+                  <p className="text-white/80 text-xs line-clamp-2">{style.description}</p>
+                </div>
                 {primaryStyle === style.value && (
-                  <Heart size={16} className="text-fashion-neutral-900 fill-fashion-neutral-900" />
+                  <div className="absolute top-2 right-2 bg-white rounded-full p-1">
+                    <Heart size={16} className="text-fashion-neutral-900 fill-fashion-neutral-900" />
+                  </div>
                 )}
               </div>
-              <p className="text-xs text-fashion-neutral-600 mt-1">{style.description}</p>
-            </button>
+            </motion.div>
           ))}
         </div>
       </div>
       
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium text-fashion-neutral-900">Secondary Styles</h3>
-        <p className="text-sm text-fashion-neutral-600">
-          Select additional styles you incorporate into your wardrobe.
-        </p>
-        
-        <div className="flex flex-wrap gap-2">
-          {styleOptions
-            .filter(style => style.value !== primaryStyle)
-            .map((style) => (
-              <button
-                key={style.value}
-                className={`
-                  px-4 py-2 rounded-full text-sm transition-all
-                  ${secondaryStyles.includes(style.value) 
-                    ? 'bg-fashion-neutral-900 text-white' 
-                    : 'bg-fashion-neutral-100 text-fashion-neutral-700 hover:bg-fashion-neutral-200'}
-                `}
-                onClick={() => toggleSecondaryStyle(style.value)}
-              >
-                {style.label}
-              </button>
-            ))}
-        </div>
-      </div>
+      {primaryStyle && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-4"
+        >
+          <h3 className="text-lg font-medium text-fashion-neutral-900">Additional Styles</h3>
+          <p className="text-sm text-fashion-neutral-600">
+            Select other styles you sometimes incorporate into your wardrobe.
+          </p>
+          
+          <div className="flex flex-wrap gap-2">
+            {styleOptions
+              .filter(style => style.value !== primaryStyle)
+              .map((style) => (
+                <button
+                  key={style.value}
+                  className={`
+                    flex items-center px-3 py-2 rounded-full text-sm transition-all
+                    ${secondaryStyles.includes(style.value) 
+                      ? 'bg-fashion-neutral-900 text-white' 
+                      : 'bg-fashion-neutral-100 text-fashion-neutral-700 hover:bg-fashion-neutral-200'}
+                  `}
+                  onClick={() => toggleSecondaryStyle(style.value)}
+                >
+                  {secondaryStyles.includes(style.value) && <Check size={14} className="mr-1" />}
+                  {style.label}
+                </button>
+              ))}
+          </div>
+        </motion.div>
+      )}
       
-      <div className="space-y-4">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="space-y-4"
+      >
         <h3 className="text-lg font-medium text-fashion-neutral-900">Favorite Colors</h3>
-        <p className="text-sm text-fashion-neutral-600">
-          Select colors you love to wear.
-        </p>
-        
-        <div className="grid grid-cols-4 md:grid-cols-6 gap-3">
+        <div className="grid grid-cols-4 sm:grid-cols-8 gap-3">
           {colorOptions.map((color) => (
             <button
               key={color.value}
               className={`
-                flex flex-col items-center p-2 rounded-lg border-2 transition-all
+                flex flex-col items-center p-2 rounded-lg transition-all
                 ${favoriteColors.includes(color.value) 
-                  ? 'border-fashion-neutral-900 transform scale-105' 
-                  : 'border-transparent hover:border-fashion-neutral-300'}
+                  ? 'bg-fashion-neutral-100 transform scale-105' 
+                  : 'hover:bg-fashion-neutral-50'}
               `}
               onClick={() => toggleColor(color.value)}
             >
               <div 
-                className="w-8 h-8 rounded-full mb-1 border border-fashion-neutral-200"
+                className={`
+                  w-10 h-10 rounded-full mb-1 border border-fashion-neutral-200
+                  ${favoriteColors.includes(color.value) ? 'ring-2 ring-fashion-neutral-900' : ''}
+                `}
                 style={{ backgroundColor: color.color }}
               ></div>
               <span className="text-xs text-fashion-neutral-900">{color.label}</span>
             </button>
           ))}
         </div>
-      </div>
+      </motion.div>
       
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium text-fashion-neutral-900">Favorite Patterns</h3>
-        
-        <div className="flex flex-wrap gap-2">
-          {patternOptions.map((pattern) => (
-            <button
-              key={pattern}
-              className={`
-                px-4 py-2 rounded-full text-sm transition-all
-                ${favoritePatterns.includes(pattern) 
-                  ? 'bg-fashion-neutral-800 text-white' 
-                  : 'bg-fashion-neutral-100 text-fashion-neutral-700 hover:bg-fashion-neutral-200'}
-              `}
-              onClick={() => togglePattern(pattern)}
-            >
-              {pattern}
-            </button>
-          ))}
-        </div>
-      </div>
-      
-      <div className="space-y-4">
-        <h3 className="text-lg font-medium text-fashion-neutral-900">Favorite Accessories</h3>
-        
-        <div className="flex flex-wrap gap-2">
-          {accessoryOptions.map((accessory) => (
-            <button
-              key={accessory}
-              className={`
-                px-4 py-2 rounded-full text-sm transition-all
-                ${favoriteAccessories.includes(accessory) 
-                  ? 'bg-fashion-neutral-800 text-white' 
-                  : 'bg-fashion-neutral-100 text-fashion-neutral-700 hover:bg-fashion-neutral-200'}
-              `}
-              onClick={() => toggleAccessory(accessory)}
-            >
-              {accessory}
-            </button>
-          ))}
-        </div>
-      </div>
-      
-      <div className="space-y-4">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="space-y-4"
+      >
         <h3 className="text-lg font-medium text-fashion-neutral-900">Favorite Brands</h3>
-        
-        <div className="flex items-center space-x-2">
-          <input
-            type="text"
-            value={brandsInput}
-            onChange={(e) => setBrandsInput(e.target.value)}
-            placeholder="Add a brand..."
-            className="flex-1 border border-fashion-neutral-300 rounded-md py-2 px-3 text-fashion-neutral-900 focus:ring-1 focus:ring-fashion-neutral-900 focus:border-fashion-neutral-900"
-            onKeyPress={(e) => e.key === 'Enter' && addBrand()}
-          />
-          <button
-            onClick={addBrand}
-            className="px-4 py-2 bg-fashion-neutral-900 text-white rounded-md hover:bg-fashion-neutral-800 transition-colors"
-          >
-            Add
-          </button>
-        </div>
         
         <div className="flex flex-wrap gap-2 mb-4">
           {selectedBrands.map((brand) => (
@@ -333,7 +296,6 @@ const StylePreferencesStep = ({ data, onUpdate }: StylePreferencesStepProps) => 
           <div className="flex flex-wrap gap-2">
             {popularBrands
               .filter(brand => !selectedBrands.includes(brand))
-              .slice(0, 12)
               .map((brand) => (
                 <button
                   key={brand}
@@ -345,7 +307,7 @@ const StylePreferencesStep = ({ data, onUpdate }: StylePreferencesStepProps) => 
               ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

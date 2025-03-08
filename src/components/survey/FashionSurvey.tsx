@@ -105,7 +105,7 @@ const FashionSurvey = ({ onComplete, onDismiss, className }: FashionSurveyProps)
     center: {
       x: 0,
       opacity: 1
-    },
+    }),
     exit: (direction: number) => ({
       x: direction < 0 ? '100%' : '-100%',
       opacity: 0
@@ -120,10 +120,10 @@ const FashionSurvey = ({ onComplete, onDismiss, className }: FashionSurveyProps)
   };
 
   return (
-    <div className={cn("bg-white rounded-xl shadow-lg border border-fashion-neutral-200 overflow-hidden", className)}>
+    <div className={cn("bg-white rounded-xl shadow-lg border border-fashion-neutral-200 overflow-hidden flex flex-col", className)}>
       <SurveyHeader steps={steps} currentStep={currentStep} onStepClick={changeStep} />
       
-      <div className="relative overflow-hidden" style={{ minHeight: '500px' }}>
+      <div className="relative flex-grow overflow-y-auto" style={{ maxHeight: '70vh' }}>
         <AnimatePresence initial={false} custom={slideDirection} mode="wait">
           <motion.div
             key={currentStep}
@@ -136,7 +136,7 @@ const FashionSurvey = ({ onComplete, onDismiss, className }: FashionSurveyProps)
               x: { type: "spring", stiffness: 300, damping: 30 },
               opacity: { duration: 0.2 }
             }}
-            className="w-full absolute"
+            className="w-full h-full"
           >
             <div className="p-6 md:p-8">
               <h2 className="text-2xl font-semibold text-fashion-neutral-900 mb-1">{currentStepData.title}</h2>
