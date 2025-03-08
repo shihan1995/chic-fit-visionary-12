@@ -1,14 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, Ruler, Palette, Sparkles, Camera, Shirt, User } from 'lucide-react';
+import { ArrowRight, Zap } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import AnimatedButton from '@/components/ui/AnimatedButton';
-import FeatureCard from '@/components/ui/FeatureCard';
-import StyleProfile from '@/components/ui/StyleProfile';
-import SizeRecommendation from '@/components/ui/SizeRecommendation';
-import ColorAnalysis from '@/components/ui/ColorAnalysis';
 import FashionSurvey from '@/components/survey/FashionSurvey';
 
 const Index = () => {
@@ -90,88 +86,6 @@ const Index = () => {
           </div>
         </div>
       )}
-
-      <section className="py-12 bg-fashion-neutral-50">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl font-semibold text-fashion-neutral-900 mb-4">
-              AI-Powered Fashion Features
-            </h2>
-            <p className="text-lg text-fashion-neutral-600">
-              Discover how our AI technology revolutionizes your fashion experience.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            <Link to="/style-profile">
-              <FeatureCard
-                icon={<Sparkles size={24} />}
-                title="Style Profile"
-                description="Get a personalized style profile based on your preferences and past purchases."
-                animationDelay={100}
-              />
-            </Link>
-            
-            <Link to="/size-guide">
-              <FeatureCard
-                icon={<Ruler size={24} />}
-                title="Size Recommendations"
-                description="Never worry about sizing again with our smart fit technology."
-                animationDelay={200}
-              />
-            </Link>
-            
-            <Link to="/color-analysis">
-              <FeatureCard
-                icon={<Palette size={24} />}
-                title="Color Analysis"
-                description="Find the perfect colors that complement your skin tone and style."
-                animationDelay={300}
-              />
-            </Link>
-            
-            <Link to="/visual-try-on">
-              <FeatureCard
-                icon={<Camera size={24} />}
-                title="Visual Try-On"
-                description="See how clothes look on you before you buy with our virtual fitting room."
-                animationDelay={400}
-              />
-            </Link>
-          </div>
-        </div>
-      </section>
-      
-      <StyleProfile />
-      
-      <SizeRecommendation />
-      
-      <ColorAnalysis />
-      
-      <section className="py-24 bg-fashion-neutral-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center reveal">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-fashion-neutral-200 text-xs font-medium mb-4">
-              <Zap size={14} className="mr-1" />
-              Get Started Today
-            </div>
-            <h2 className="text-3xl md:text-4xl font-semibold mb-4">
-              Transform Your Wardrobe With AI
-            </h2>
-            <p className="text-lg text-fashion-neutral-200 mb-8 max-w-2xl mx-auto">
-              Join thousands of fashion enthusiasts who have discovered their perfect style with our AI assistant.
-            </p>
-            <AnimatedButton 
-              variant="secondary" 
-              size="lg"
-              className="bg-white text-fashion-neutral-900 hover:bg-fashion-neutral-100"
-              onClick={() => setShowSurvey(true)}
-            >
-              {surveyCompleted ? 'Update Your Style Profile' : 'Create Your Style Profile'}
-            </AnimatedButton>
-          </div>
-        </div>
-      </section>
       
       <Footer />
     </div>
