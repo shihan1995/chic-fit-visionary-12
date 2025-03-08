@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Sparkles, Palette, Ruler, Heart } from 'lucide-react';
+import { Sparkles, Palette, Ruler, Heart, ShoppingBag } from 'lucide-react';
 
 interface SurveyResultsProps {
   data: {
@@ -23,17 +23,93 @@ interface SurveyResultsProps {
   };
 }
 
+interface RecommendedItem {
+  id: string;
+  name: string;
+  image: string;
+  brand: string;
+  price: string;
+  match: number;
+  category: string;
+}
+
 const SurveyResults = ({ data }: SurveyResultsProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [recommendedItems, setRecommendedItems] = useState<RecommendedItem[]>([]);
   
   // Simulate AI processing
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
+      
+      // Generate mock recommended items based on style preferences
+      generateRecommendedItems();
     }, 2000);
     
     return () => clearTimeout(timer);
   }, []);
+  
+  const generateRecommendedItems = () => {
+    // Mock data - in a real app, this would come from an API based on the user's style profile
+    const mockItems: RecommendedItem[] = [
+      {
+        id: '1',
+        name: 'Oversized Wool Blend Coat',
+        image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Eileen Fisher',
+        price: '$248',
+        match: 96,
+        category: 'Outerwear'
+      },
+      {
+        id: '2',
+        name: 'Slim Fit Stretch Jeans',
+        image: 'https://images.unsplash.com/photo-1582552938357-32b906df40cb?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Levi\'s',
+        price: '$89',
+        match: 91,
+        category: 'Bottoms'
+      },
+      {
+        id: '3',
+        name: 'Silk V-Neck Blouse',
+        image: 'https://images.unsplash.com/photo-1554412933-514a83d2f3c8?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Vince',
+        price: '$175',
+        match: 89,
+        category: 'Tops'
+      },
+      {
+        id: '4',
+        name: 'Leather Chelsea Boots',
+        image: 'https://images.unsplash.com/photo-1605812276723-c31bb12202a9?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Clarks',
+        price: '$150',
+        match: 87,
+        category: 'Footwear'
+      },
+      {
+        id: '5',
+        name: 'Cashmere Sweater',
+        image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Everlane',
+        price: '$130',
+        match: 84,
+        category: 'Tops'
+      },
+      {
+        id: '6',
+        name: 'Leather Crossbody Bag',
+        image: 'https://images.unsplash.com/photo-1600857062241-98e5dba7f214?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Madewell',
+        price: '$148',
+        match: 82,
+        category: 'Accessories'
+      }
+    ];
+    
+    setRecommendedItems(mockItems);
+  };
   
   const styleDescriptions: Record<string, string> = {
     'minimal': 'Clean, understated, and focused on simplicity. Your wardrobe likely consists of versatile pieces in neutral colors.',
@@ -60,6 +136,7 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
   
   return (
     <div className="space-y-8">
+      {/* Style Personality Section */}
       <div className="bg-fashion-neutral-50 p-6 rounded-lg border border-fashion-neutral-200">
         <div className="flex items-center mb-4">
           <Sparkles size={20} className="text-fashion-neutral-900 mr-2" />
@@ -90,6 +167,7 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
         </div>
       </div>
       
+      {/* Color and Size Profile Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-fashion-neutral-50 p-6 rounded-lg border border-fashion-neutral-200">
           <div className="flex items-center mb-4">
@@ -135,6 +213,7 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
         </div>
       </div>
       
+      {/* Style Preferences Section */}
       <div className="bg-fashion-neutral-50 p-6 rounded-lg border border-fashion-neutral-200">
         <div className="flex items-center mb-4">
           <Heart size={20} className="text-fashion-neutral-900 mr-2" />
@@ -186,6 +265,41 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
         </div>
       </div>
       
+      {/* Recommended Items Section - NEW */}
+      <div className="bg-white p-6 rounded-lg border border-fashion-neutral-200">
+        <div className="flex items-center mb-6">
+          <ShoppingBag size={20} className="text-fashion-neutral-900 mr-2" />
+          <h3 className="text-xl font-medium text-fashion-neutral-900">Your Recommended Pieces</h3>
+        </div>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          {recommendedItems.map((item) => (
+            <div key={item.id} className="border border-fashion-neutral-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300">
+              <div className="relative">
+                <img 
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-64 object-cover"
+                />
+                <div className="absolute top-2 right-2 bg-white/90 px-2 py-1 rounded-full text-xs font-semibold flex items-center shadow-sm">
+                  <Heart size={12} className="text-red-500 mr-1" fill="red" />
+                  {item.match}% Match
+                </div>
+              </div>
+              <div className="p-4">
+                <div className="text-xs text-fashion-neutral-600 mb-1">{item.brand}</div>
+                <h4 className="font-medium text-fashion-neutral-900 mb-1">{item.name}</h4>
+                <div className="flex justify-between items-center">
+                  <span className="text-fashion-neutral-900 font-semibold">{item.price}</span>
+                  <span className="text-xs px-2 py-1 bg-fashion-neutral-100 rounded-full">{item.category}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* What's Next Section */}
       <div className="bg-fashion-primary-light p-6 rounded-lg">
         <div className="flex items-start">
           <Sparkles size={24} className="text-fashion-neutral-900 mr-3 mt-1" />
