@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Camera, ArrowRight, ArrowLeft, Check, Upload } from 'lucide-react';
@@ -105,7 +104,7 @@ const FashionSurvey = ({ onComplete, onDismiss, className }: FashionSurveyProps)
     center: {
       x: 0,
       opacity: 1
-    }),
+    },
     exit: (direction: number) => ({
       x: direction < 0 ? '100%' : '-100%',
       opacity: 0
