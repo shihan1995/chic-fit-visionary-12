@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Zap, Ruler, Palette, Sparkles } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
@@ -9,8 +9,20 @@ import FeatureCard from '@/components/ui/FeatureCard';
 import StyleProfile from '@/components/ui/StyleProfile';
 import SizeRecommendation from '@/components/ui/SizeRecommendation';
 import ColorAnalysis from '@/components/ui/ColorAnalysis';
+import FashionSurvey from '@/components/survey/FashionSurvey';
 
 const Index = () => {
+  const [showSurvey, setShowSurvey] = useState(false);
+  const [surveyCompleted, setSurveyCompleted] = useState(false);
+
+  // Check if survey was completed previously
+  useEffect(() => {
+    const storedSurveyData = localStorage.getItem('fashionSurveyData');
+    if (storedSurveyData) {
+      setSurveyCompleted(true);
+    }
+  }, []);
+
   // Animation observer for revealing elements on scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,6 +44,11 @@ const Index = () => {
     };
   }, []);
 
+  const handleSurveyComplete = () => {
+    setShowSurvey(false);
+    setSurveyCompleted(true);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -51,8 +68,9 @@ const Index = () => {
                 variant="primary" 
                 size="lg"
                 icon={<ArrowRight size={18} />}
+                onClick={() => setShowSurvey(true)}
               >
-                Get Started
+                {surveyCompleted ? 'Update Style Profile' : 'Start Style Quiz'}
               </AnimatedButton>
               <AnimatedButton 
                 variant="secondary" 
@@ -64,6 +82,18 @@ const Index = () => {
           </div>
         </div>
       </section>
+      
+      {/* Survey Modal */}
+      {showSurvey && (
+        <div className="fixed inset-0 bg-black/50 z-50 overflow-y-auto p-4 flex items-center justify-center">
+          <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <FashionSurvey 
+              onComplete={handleSurveyComplete} 
+              onDismiss={() => setShowSurvey(false)}
+            />
+          </div>
+        </div>
+      )}
       
       {/* Features Section */}
       <section className="py-16 bg-fashion-neutral-100">
@@ -135,8 +165,9 @@ const Index = () => {
               variant="secondary" 
               size="lg"
               className="bg-white text-fashion-neutral-900 hover:bg-fashion-neutral-100"
+              onClick={() => setShowSurvey(true)}
             >
-              Create Your Style Profile
+              {surveyCompleted ? 'Update Your Style Profile' : 'Create Your Style Profile'}
             </AnimatedButton>
           </div>
         </div>
