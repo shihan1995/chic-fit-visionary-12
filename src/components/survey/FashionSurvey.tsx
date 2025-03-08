@@ -1,246 +1,196 @@
 
-import React, { useState, useEffect } from 'react';
-import { CheckCircle2, X } from 'lucide-react';
-import AnimatedButton from '@/components/ui/AnimatedButton';
-import StylePreferencesStep from './StylePreferencesStep';
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Camera, ArrowRight, ArrowLeft, Check, Upload } from 'lucide-react';
+import SurveyHeader from './SurveyHeader';
 import ColorAnalysisStep from './ColorAnalysisStep';
 import SizeAnalysisStep from './SizeAnalysisStep';
+import StylePreferencesStep from './StylePreferencesStep';
 import SurveyResults from './SurveyResults';
-import { useToast } from '@/hooks/use-toast';
-import SurveyHeader from './SurveyHeader';
-import { motion } from 'framer-motion';
+import AnimatedButton from '../ui/AnimatedButton';
+import { cn } from '@/lib/utils';
 
 interface FashionSurveyProps {
   onComplete: () => void;
   onDismiss: () => void;
+  className?: string;
 }
 
-const GenderStep = ({ onSelect, selectedGender }: { onSelect: (gender: string) => void, selectedGender: string }) => {
-  return (
-    <div className="space-y-6">
-      <h3 className="text-2xl font-semibold text-fashion-neutral-900 text-center">What's your gender?</h3>
-      <p className="text-center text-fashion-neutral-600">
-        This helps us personalize your style recommendations.
-      </p>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto mt-8">
-        <div 
-          className={`border-2 rounded-lg p-6 text-center cursor-pointer transition-all ${
-            selectedGender === 'male' ? 'border-fashion-neutral-900 bg-fashion-neutral-50' : 'border-fashion-neutral-200 hover:border-fashion-neutral-300'
-          }`}
-          onClick={() => onSelect('male')}
-        >
-          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-fashion-neutral-100 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="5" r="3"/>
-              <line x1="12" y1="8" x2="12" y2="21"/>
-              <line x1="8" y1="16" x2="16" y2="16"/>
-            </svg>
-          </div>
-          <h4 className="font-medium text-fashion-neutral-900">Male</h4>
-        </div>
-        
-        <div 
-          className={`border-2 rounded-lg p-6 text-center cursor-pointer transition-all ${
-            selectedGender === 'female' ? 'border-fashion-neutral-900 bg-fashion-neutral-50' : 'border-fashion-neutral-200 hover:border-fashion-neutral-300'
-          }`}
-          onClick={() => onSelect('female')}
-        >
-          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-fashion-neutral-100 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="8" r="5"/>
-              <path d="M12 13v8"/>
-              <path d="M9 18h6"/>
-            </svg>
-          </div>
-          <h4 className="font-medium text-fashion-neutral-900">Female</h4>
-        </div>
-        
-        <div 
-          className={`border-2 rounded-lg p-6 text-center cursor-pointer transition-all ${
-            selectedGender === 'non-binary' ? 'border-fashion-neutral-900 bg-fashion-neutral-50' : 'border-fashion-neutral-200 hover:border-fashion-neutral-300'
-          }`}
-          onClick={() => onSelect('non-binary')}
-        >
-          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-fashion-neutral-100 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 22v-6"/>
-              <path d="M9 7V4h6v3"/>
-              <path d="M9 18h6"/>
-              <circle cx="12" cy="13" r="4"/>
-            </svg>
-          </div>
-          <h4 className="font-medium text-fashion-neutral-900">Non-binary</h4>
-        </div>
-      </div>
-    </div>
-  );
-};
+const steps = [
+  { id: 'colorAnalysis', title: 'Color Analysis', description: 'Let\'s analyze your skin tone and find your perfect colors' },
+  { id: 'sizeAnalysis', title: 'Size Analysis', description: 'Help us find your perfect fit across different brands' },
+  { id: 'stylePreferences', title: 'Style Preferences', description: 'Tell us about your personal style and preferences' },
+  { id: 'results', title: 'Your Style Profile', description: 'See your personalized fashion recommendations' },
+];
 
-const FashionSurvey = ({ onComplete, onDismiss }: FashionSurveyProps) => {
-  const [step, setStep] = useState(0);
-  const [gender, setGender] = useState('');
-  const [styleData, setStyleData] = useState({
-    primaryStyle: '',
-    secondaryStyles: [],
-    favoriteColors: [],
-    favoritePatterns: [],
-    favoriteAccessories: [],
-    brandsLiked: []
-  });
-  const [colorData, setColorData] = useState({
-    skinTone: '',
-    undertone: '',
-    recommendedColors: []
-  });
-  const [sizeData, setSizeData] = useState({
-    recommendedSizes: {}
-  });
-  
-  const { toast } = useToast();
-  
-  useEffect(() => {
-    // Load saved survey data if it exists
-    const savedData = localStorage.getItem('fashionSurveyData');
-    if (savedData) {
-      try {
-        const parsedData = JSON.parse(savedData);
-        if (parsedData.gender) setGender(parsedData.gender);
-        if (parsedData.stylePreferences) setStyleData(parsedData.stylePreferences);
-        if (parsedData.colorAnalysis) setColorData(parsedData.colorAnalysis);
-        if (parsedData.sizeAnalysis) setSizeData(parsedData.sizeAnalysis);
-      } catch (error) {
-        console.error('Error parsing saved survey data:', error);
-      }
+const FashionSurvey = ({ onComplete, onDismiss, className }: FashionSurveyProps) => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [surveyData, setSurveyData] = useState({
+    colorAnalysis: {
+      imageUrl: '',
+      skinTone: '',
+      undertone: '',
+      recommendedColors: [] as string[],
+      completed: false,
+    },
+    sizeAnalysis: {
+      height: '',
+      weight: '',
+      measurements: {
+        bust: '',
+        waist: '',
+        hips: '',
+      },
+      recommendedSizes: {} as Record<string, string>,
+      completed: false,
+    },
+    stylePreferences: {
+      primaryStyle: '',
+      secondaryStyles: [] as string[],
+      favoriteColors: [] as string[],
+      favoritePatterns: [] as string[],
+      favoriteAccessories: [] as string[],
+      brandsLiked: [] as string[],
+      completed: false,
     }
-  }, []);
-  
-  const handleGenderSelect = (selectedGender: string) => {
-    setGender(selectedGender);
-    goToNextStep();
+  });
+
+  const updateSurveyData = (section: keyof typeof surveyData, data: any) => {
+    setSurveyData(prev => ({ 
+      ...prev, 
+      [section]: { 
+        ...prev[section], 
+        ...data, 
+        completed: true 
+      } 
+    }));
   };
-  
-  const handleStyleSubmit = (data: typeof styleData) => {
-    setStyleData(data);
-    goToNextStep();
-  };
-  
-  const handleColorSubmit = (data: typeof colorData) => {
-    setColorData(data);
-    goToNextStep();
-  };
-  
-  const handleSizeSubmit = (data: typeof sizeData) => {
-    setSizeData(data);
-    goToNextStep();
-    
-    // Save all survey data to localStorage
-    const surveyData = {
-      gender,
-      stylePreferences: styleData,
-      colorAnalysis: colorData,
-      sizeAnalysis: data
-    };
-    
-    localStorage.setItem('fashionSurveyData', JSON.stringify(surveyData));
-    
-    toast({
-      title: "Style Profile Updated!",
-      description: "Your fashion preferences have been saved.",
-    });
-  };
-  
+
   const goToNextStep = () => {
-    setStep(prev => prev + 1);
-  };
-  
-  const goToPrevStep = () => {
-    setStep(prev => prev - 1);
-  };
-  
-  const getStepContent = () => {
-    switch(step) {
-      case 0:
-        return <GenderStep onSelect={handleGenderSelect} selectedGender={gender} />;
-      case 1:
-        return <StylePreferencesStep onSubmit={handleStyleSubmit} initialData={styleData} userGender={gender} />;
-      case 2:
-        return <ColorAnalysisStep onSubmit={handleColorSubmit} initialData={colorData} />;
-      case 3:
-        return <SizeAnalysisStep onSubmit={handleSizeSubmit} initialData={sizeData} userGender={gender} />;
-      case 4:
-        return (
-          <SurveyResults 
-            data={{
-              gender,
-              stylePreferences: styleData,
-              colorAnalysis: colorData,
-              sizeAnalysis: sizeData
-            }}
-          />
-        );
-      default:
-        return null;
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(prev => prev + 1);
+    } else {
+      handleComplete();
     }
   };
-  
-  const totalSteps = 5;
-  
-  const slideVariants = {
-    hidden: { opacity: 0, x: 100 },
-    visible: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -100 }
+
+  const goToPrevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(prev => prev - 1);
+    }
   };
+
+  const handleComplete = () => {
+    // Save survey data to localStorage for persistence
+    localStorage.setItem('fashionSurveyData', JSON.stringify(surveyData));
+    onComplete();
+  };
+
+  const currentStepData = steps[currentStep];
+  const isLastStep = currentStep === steps.length - 1;
   
+  // Update how we check if a step is completed
+  const isStepCompleted = () => {
+    if (currentStep === 3) return true; // Results step is always considered complete
+    
+    const stepKey = steps[currentStep].id as keyof typeof surveyData;
+    return surveyData[stepKey]?.completed || false;
+  };
+
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? '100%' : '-100%',
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? '100%' : '-100%',
+      opacity: 0
+    })
+  };
+
+  const [slideDirection, setSlideDirection] = useState(1);
+
+  const changeStep = (newStep: number) => {
+    setSlideDirection(newStep > currentStep ? 1 : -1);
+    setCurrentStep(newStep);
+  };
+
   return (
-    <div className="bg-white rounded-xl shadow-xl max-w-4xl mx-auto overflow-hidden">
-      <div className="relative">
-        <button 
-          onClick={onDismiss}
-          className="absolute top-4 right-4 p-2 rounded-full bg-fashion-neutral-100 hover:bg-fashion-neutral-200 transition-colors z-10"
-        >
-          <X size={20} className="text-fashion-neutral-700" />
-        </button>
-        
-        <SurveyHeader 
-          currentStep={step} 
-          totalSteps={totalSteps}
-          titles={['Gender', 'Style', 'Colors', 'Size', 'Results']}
-        />
-        
-        <div className="p-6 md:p-8">
+    <div className={cn("bg-white rounded-xl shadow-lg border border-fashion-neutral-200 overflow-hidden flex flex-col", className)}>
+      <SurveyHeader steps={steps} currentStep={currentStep} onStepClick={changeStep} />
+      
+      <div className="relative flex-grow overflow-y-auto" style={{ maxHeight: '70vh' }}>
+        <AnimatePresence initial={false} custom={slideDirection} mode="wait">
           <motion.div
-            key={step}
+            key={currentStep}
+            custom={slideDirection}
             variants={slideVariants}
-            initial="hidden"
-            animate="visible"
+            initial="enter"
+            animate="center"
             exit="exit"
-            transition={{ duration: 0.3, ease: 'easeOut' }}
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 }
+            }}
+            className="w-full h-full"
           >
-            {getStepContent()}
+            <div className="p-6 md:p-8">
+              <h2 className="text-2xl font-semibold text-fashion-neutral-900 mb-1">{currentStepData.title}</h2>
+              <p className="text-fashion-neutral-600 mb-6">{currentStepData.description}</p>
+              
+              {currentStep === 0 && (
+                <ColorAnalysisStep 
+                  data={surveyData.colorAnalysis}
+                  onUpdate={(data) => updateSurveyData('colorAnalysis', data)}
+                />
+              )}
+              
+              {currentStep === 1 && (
+                <SizeAnalysisStep 
+                  data={surveyData.sizeAnalysis}
+                  onUpdate={(data) => updateSurveyData('sizeAnalysis', data)}
+                />
+              )}
+              
+              {currentStep === 2 && (
+                <StylePreferencesStep 
+                  data={surveyData.stylePreferences}
+                  onUpdate={(data) => updateSurveyData('stylePreferences', data)}
+                />
+              )}
+              
+              {currentStep === 3 && (
+                <SurveyResults 
+                  data={surveyData}
+                />
+              )}
+            </div>
           </motion.div>
-          
-          <div className="flex justify-between mt-8">
-            {step > 0 && step < 4 && (
-              <AnimatedButton
-                variant="secondary"
-                onClick={goToPrevStep}
-              >
-                Back
-              </AnimatedButton>
-            )}
-            
-            {step === 4 && (
-              <AnimatedButton
-                variant="primary"
-                icon={<CheckCircle2 size={18} />}
-                onClick={onComplete}
-              >
-                Complete
-              </AnimatedButton>
-            )}
-          </div>
-        </div>
+        </AnimatePresence>
+      </div>
+      
+      <div className="p-6 border-t border-fashion-neutral-200 bg-fashion-neutral-50 flex justify-between">
+        <AnimatedButton
+          variant="secondary"
+          icon={<ArrowLeft size={16} />}
+          iconPosition="left"
+          onClick={currentStep === 0 ? onDismiss : goToPrevStep}
+        >
+          {currentStep === 0 ? 'Cancel' : 'Back'}
+        </AnimatedButton>
+        
+        <AnimatedButton
+          variant="primary"
+          icon={isLastStep ? <Check size={16} /> : <ArrowRight size={16} />}
+          onClick={goToNextStep}
+          disabled={!isStepCompleted()}
+        >
+          {isLastStep ? 'Complete' : 'Continue'}
+        </AnimatedButton>
       </div>
     </div>
   );
