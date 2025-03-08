@@ -47,7 +47,7 @@ const styleOptions = [
     value: 'preppy', 
     label: 'Preppy', 
     description: 'Tailored, clean-cut, collegiate-inspired',
-    imageUrl: 'https://images.unsplash.com/photo-1614251055880-ee96e4803393?auto=format&fit=crop&q=80&w=300&h=400'
+    imageUrl: 'https://images.unsplash.com/photo-1589992896544-8389e29a1c0f?auto=format&fit=crop&q=80&w=300&h=400'
   },
   { 
     value: 'romantic', 

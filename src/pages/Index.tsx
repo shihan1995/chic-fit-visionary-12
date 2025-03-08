@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, Ruler, Palette, Sparkles } from 'lucide-react';
+import { ArrowRight, Zap, Ruler, Palette, Sparkles, Camera, Tshirt, User } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import AnimatedButton from '@/components/ui/AnimatedButton';
@@ -10,10 +10,14 @@ import StyleProfile from '@/components/ui/StyleProfile';
 import SizeRecommendation from '@/components/ui/SizeRecommendation';
 import ColorAnalysis from '@/components/ui/ColorAnalysis';
 import FashionSurvey from '@/components/survey/FashionSurvey';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import VisualTryOn from '@/components/visualization/VisualTryOn';
+import RecommendedStyles from '@/components/recommendations/RecommendedStyles';
 
 const Index = () => {
   const [showSurvey, setShowSurvey] = useState(false);
   const [surveyCompleted, setSurveyCompleted] = useState(false);
+  const [activeTab, setActiveTab] = useState("main");
 
   // Check if survey was completed previously
   useEffect(() => {
@@ -94,58 +98,77 @@ const Index = () => {
           </div>
         </div>
       )}
-      
-      {/* Features Section */}
-      <section className="py-16 bg-fashion-neutral-100">
+
+      {/* Tabbed Content Section */}
+      <section className="py-12 bg-fashion-neutral-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center mb-16 reveal">
-            <h2 className="text-3xl md:text-4xl font-semibold text-fashion-neutral-900 mb-4">
-              AI-Powered Fashion Features
-            </h2>
-            <p className="text-lg text-fashion-neutral-600">
-              Discover how our AI technology revolutionizes your fashion experience.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Link to="/style-profile">
-              <FeatureCard
-                icon={<Sparkles size={24} />}
-                title="Style Profile"
-                description="Get a personalized style profile based on your preferences and past purchases."
-                animationDelay={100}
-              />
-            </Link>
+          <Tabs defaultValue="main" className="w-full" onValueChange={setActiveTab}>
+            <TabsList className="w-full max-w-3xl mx-auto grid grid-cols-3 mb-12">
+              <TabsTrigger value="main" className="text-sm sm:text-base py-3">Featured</TabsTrigger>
+              <TabsTrigger value="visualTryOn" className="text-sm sm:text-base py-3">Visual Try-On</TabsTrigger>
+              <TabsTrigger value="recommendations" className="text-sm sm:text-base py-3">Recommendations</TabsTrigger>
+            </TabsList>
             
-            <Link to="/size-guide">
-              <FeatureCard
-                icon={<Ruler size={24} />}
-                title="Size Recommendations"
-                description="Never worry about sizing again with our smart fit technology."
-                animationDelay={200}
-              />
-            </Link>
+            <TabsContent value="main" className="mt-0">
+              {/* Features Section */}
+              <div className="max-w-3xl mx-auto text-center mb-16 reveal">
+                <h2 className="text-3xl md:text-4xl font-semibold text-fashion-neutral-900 mb-4">
+                  AI-Powered Fashion Features
+                </h2>
+                <p className="text-lg text-fashion-neutral-600">
+                  Discover how our AI technology revolutionizes your fashion experience.
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <Link to="/style-profile">
+                  <FeatureCard
+                    icon={<Sparkles size={24} />}
+                    title="Style Profile"
+                    description="Get a personalized style profile based on your preferences and past purchases."
+                    animationDelay={100}
+                  />
+                </Link>
+                
+                <Link to="/size-guide">
+                  <FeatureCard
+                    icon={<Ruler size={24} />}
+                    title="Size Recommendations"
+                    description="Never worry about sizing again with our smart fit technology."
+                    animationDelay={200}
+                  />
+                </Link>
+                
+                <Link to="/color-analysis">
+                  <FeatureCard
+                    icon={<Palette size={24} />}
+                    title="Color Analysis"
+                    description="Find the perfect colors that complement your skin tone and style."
+                    animationDelay={300}
+                  />
+                </Link>
+              </div>
+              
+              {/* Style Profile Preview */}
+              {activeTab === "main" && <StyleProfile />}
+              
+              {/* Size Recommendation Preview */}
+              {activeTab === "main" && <SizeRecommendation />}
+              
+              {/* Color Analysis Preview */}
+              {activeTab === "main" && <ColorAnalysis />}
+            </TabsContent>
             
-            <Link to="/color-analysis">
-              <FeatureCard
-                icon={<Palette size={24} />}
-                title="Color Analysis"
-                description="Find the perfect colors that complement your skin tone and style."
-                animationDelay={300}
-              />
-            </Link>
-          </div>
+            <TabsContent value="visualTryOn">
+              <VisualTryOn />
+            </TabsContent>
+            
+            <TabsContent value="recommendations">
+              <RecommendedStyles />
+            </TabsContent>
+          </Tabs>
         </div>
       </section>
-      
-      {/* Style Profile Preview */}
-      <StyleProfile />
-      
-      {/* Size Recommendation Preview */}
-      <SizeRecommendation />
-      
-      {/* Color Analysis Preview */}
-      <ColorAnalysis />
       
       {/* CTA Section */}
       <section className="py-24 bg-fashion-neutral-900 text-white">

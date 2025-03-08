@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Sparkles, Palette, Ruler, Heart, ShoppingBag } from 'lucide-react';
 
@@ -123,7 +124,7 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
     'classic': 'https://images.unsplash.com/photo-1608234807905-4466023792f5?auto=format&fit=crop&q=80&w=300&h=400',
     'bohemian': 'https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?auto=format&fit=crop&q=80&w=300&h=400',
     'streetwear': 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=300&h=400',
-    'preppy': 'https://images.unsplash.com/photo-1614251055880-ee96e4803393?auto=format&fit=crop&q=80&w=300&h=400',
+    'preppy': 'https://images.unsplash.com/photo-1589992896544-8389e29a1c0f?auto=format&fit=crop&q=80&w=300&h=400',
     'romantic': 'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=300&h=400',
     'edgy': 'https://images.unsplash.com/photo-1536766820879-059fec98ec0a?auto=format&fit=crop&q=80&w=300&h=400',
     'athleisure': 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=300&h=400'
