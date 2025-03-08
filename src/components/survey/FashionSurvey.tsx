@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Camera, ArrowRight, ArrowLeft, Check, Upload } from 'lucide-react';
 import SurveyHeader from './SurveyHeader';
+import GenderSelectionStep from './GenderSelectionStep';
 import ColorAnalysisStep from './ColorAnalysisStep';
 import SizeAnalysisStep from './SizeAnalysisStep';
 import StylePreferencesStep from './StylePreferencesStep';
@@ -17,6 +18,7 @@ interface FashionSurveyProps {
 }
 
 const steps = [
+  { id: 'genderSelection', title: 'Gender Selection', description: 'Help us personalize your fashion recommendations' },
   { id: 'colorAnalysis', title: 'Color Analysis', description: 'Let\'s analyze your skin tone and find your perfect colors' },
   { id: 'sizeAnalysis', title: 'Size Analysis', description: 'Help us find your perfect fit across different brands' },
   { id: 'stylePreferences', title: 'Style Preferences', description: 'Tell us about your personal style and preferences' },
@@ -26,6 +28,10 @@ const steps = [
 const FashionSurvey = ({ onComplete, onDismiss, className }: FashionSurveyProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [surveyData, setSurveyData] = useState({
+    genderSelection: {
+      gender: '',
+      completed: false,
+    },
     colorAnalysis: {
       imageUrl: '',
       skinTone: '',
@@ -91,7 +97,7 @@ const FashionSurvey = ({ onComplete, onDismiss, className }: FashionSurveyProps)
   
   // Update how we check if a step is completed
   const isStepCompleted = () => {
-    if (currentStep === 3) return true; // Results step is always considered complete
+    if (currentStep === 4) return true; // Results step is always considered complete
     
     const stepKey = steps[currentStep].id as keyof typeof surveyData;
     return surveyData[stepKey]?.completed || false;
@@ -143,27 +149,36 @@ const FashionSurvey = ({ onComplete, onDismiss, className }: FashionSurveyProps)
               <p className="text-fashion-neutral-600 mb-6">{currentStepData.description}</p>
               
               {currentStep === 0 && (
+                <GenderSelectionStep 
+                  data={surveyData.genderSelection}
+                  onUpdate={(data) => updateSurveyData('genderSelection', data)}
+                />
+              )}
+              
+              {currentStep === 1 && (
                 <ColorAnalysisStep 
                   data={surveyData.colorAnalysis}
                   onUpdate={(data) => updateSurveyData('colorAnalysis', data)}
                 />
               )}
               
-              {currentStep === 1 && (
+              {currentStep === 2 && (
                 <SizeAnalysisStep 
                   data={surveyData.sizeAnalysis}
+                  gender={surveyData.genderSelection.gender}
                   onUpdate={(data) => updateSurveyData('sizeAnalysis', data)}
                 />
               )}
               
-              {currentStep === 2 && (
+              {currentStep === 3 && (
                 <StylePreferencesStep 
                   data={surveyData.stylePreferences}
+                  gender={surveyData.genderSelection.gender}
                   onUpdate={(data) => updateSurveyData('stylePreferences', data)}
                 />
               )}
               
-              {currentStep === 3 && (
+              {currentStep === 4 && (
                 <SurveyResults 
                   data={surveyData}
                 />
