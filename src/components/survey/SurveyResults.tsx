@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Sparkles, Palette, Ruler, Heart, ShoppingBag } from 'lucide-react';
 
@@ -37,12 +36,10 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [recommendedItems, setRecommendedItems] = useState<RecommendedItem[]>([]);
   
-  // Simulate AI processing
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
       
-      // Generate mock recommended items based on style preferences
       generateRecommendedItems();
     }, 2000);
     
@@ -50,7 +47,6 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
   }, []);
   
   const generateRecommendedItems = () => {
-    // Mock data - in a real app, this would come from an API based on the user's style profile
     const mockItems: RecommendedItem[] = [
       {
         id: '1',
@@ -122,6 +118,17 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
     'athleisure': 'Performance-focused, comfortable, and sporty, balancing function with style.'
   };
   
+  const styleImages: Record<string, string> = {
+    'minimal': 'https://images.unsplash.com/photo-1609505848912-b7c3b8b4beda?auto=format&fit=crop&q=80&w=300&h=400',
+    'classic': 'https://images.unsplash.com/photo-1608234807905-4466023792f5?auto=format&fit=crop&q=80&w=300&h=400',
+    'bohemian': 'https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?auto=format&fit=crop&q=80&w=300&h=400',
+    'streetwear': 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=300&h=400',
+    'preppy': 'https://images.unsplash.com/photo-1614251055880-ee96e4803393?auto=format&fit=crop&q=80&w=300&h=400',
+    'romantic': 'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=300&h=400',
+    'edgy': 'https://images.unsplash.com/photo-1536766820879-059fec98ec0a?auto=format&fit=crop&q=80&w=300&h=400',
+    'athleisure': 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=300&h=400'
+  };
+  
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-20">
@@ -136,20 +143,28 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
   
   return (
     <div className="space-y-8">
-      {/* Style Personality Section */}
       <div className="bg-fashion-neutral-50 p-6 rounded-lg border border-fashion-neutral-200">
         <div className="flex items-center mb-4">
           <Sparkles size={20} className="text-fashion-neutral-900 mr-2" />
           <h3 className="text-xl font-medium text-fashion-neutral-900">Your Fashion Personality</h3>
         </div>
         
-        <div className="mb-6">
-          <div className="text-lg font-medium text-fashion-neutral-900 mb-1">
-            {data.stylePreferences.primaryStyle.charAt(0).toUpperCase() + data.stylePreferences.primaryStyle.slice(1)}
+        <div className="flex flex-col md:flex-row gap-6 mb-6">
+          <div className="flex-grow">
+            <div className="text-lg font-medium text-fashion-neutral-900 mb-1">
+              {data.stylePreferences.primaryStyle.charAt(0).toUpperCase() + data.stylePreferences.primaryStyle.slice(1)}
+            </div>
+            <p className="text-sm text-fashion-neutral-600">
+              {styleDescriptions[data.stylePreferences.primaryStyle]}
+            </p>
           </div>
-          <p className="text-sm text-fashion-neutral-600">
-            {styleDescriptions[data.stylePreferences.primaryStyle]}
-          </p>
+          <div className="w-full md:w-48 h-64 rounded-lg overflow-hidden border border-fashion-neutral-200">
+            <img 
+              src={styleImages[data.stylePreferences.primaryStyle]} 
+              alt={data.stylePreferences.primaryStyle + " style"} 
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
         
         <div>
@@ -167,7 +182,6 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
         </div>
       </div>
       
-      {/* Color and Size Profile Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-fashion-neutral-50 p-6 rounded-lg border border-fashion-neutral-200">
           <div className="flex items-center mb-4">
@@ -213,7 +227,6 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
         </div>
       </div>
       
-      {/* Style Preferences Section */}
       <div className="bg-fashion-neutral-50 p-6 rounded-lg border border-fashion-neutral-200">
         <div className="flex items-center mb-4">
           <Heart size={20} className="text-fashion-neutral-900 mr-2" />
@@ -265,7 +278,6 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
         </div>
       </div>
       
-      {/* Recommended Items Section - NEW */}
       <div className="bg-white p-6 rounded-lg border border-fashion-neutral-200">
         <div className="flex items-center mb-6">
           <ShoppingBag size={20} className="text-fashion-neutral-900 mr-2" />
@@ -299,7 +311,6 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
         </div>
       </div>
       
-      {/* What's Next Section */}
       <div className="bg-fashion-primary-light p-6 rounded-lg">
         <div className="flex items-start">
           <Sparkles size={24} className="text-fashion-neutral-900 mr-3 mt-1" />
