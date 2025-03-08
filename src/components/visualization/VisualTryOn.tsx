@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Camera, Upload, Ruler, Palette, User, Wand2 } from 'lucide-react';
+import { Camera, Upload, Ruler, Palette, User, Wand2, ExternalLink } from 'lucide-react';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
@@ -11,6 +10,9 @@ interface ClothingItem {
   image: string;
   type: string;
   gender: 'male' | 'female' | 'unisex';
+  retailer: string;
+  price: string;
+  link: string;
 }
 
 const VisualTryOn = () => {
@@ -55,66 +57,93 @@ const VisualTryOn = () => {
   const clothingItems: ClothingItem[] = [
     {
       id: 'top1',
-      name: 'Casual White T-Shirt',
+      name: 'Organic Cotton T-Shirt',
       image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=150&h=200',
       type: 'top',
-      gender: 'unisex'
+      gender: 'unisex',
+      retailer: 'Everlane',
+      price: '$28',
+      link: 'https://www.everlane.com'
     },
     {
       id: 'top2',
-      name: 'Business Shirt',
+      name: 'Oxford Button-Down Shirt',
       image: 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=150&h=200',
       type: 'top',
-      gender: 'male'
+      gender: 'male',
+      retailer: 'J.Crew',
+      price: '$79.50',
+      link: 'https://www.jcrew.com'
     },
     {
       id: 'top3',
-      name: 'Blouse',
+      name: 'Silk Blouse',
       image: 'https://images.unsplash.com/photo-1554412933-514a83d2f3c8?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=150&h=200',
       type: 'top',
-      gender: 'female'
+      gender: 'female',
+      retailer: 'Reformation',
+      price: '$148',
+      link: 'https://www.thereformation.com'
     },
     {
       id: 'bottom1',
-      name: 'Slim Jeans',
+      name: 'Slim Stretch Jeans',
       image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=150&h=200',
       type: 'bottom',
-      gender: 'unisex'
+      gender: 'unisex',
+      retailer: 'Levi\'s',
+      price: '$98',
+      link: 'https://www.levi.com'
     },
     {
       id: 'bottom2',
-      name: 'Chino Pants',
+      name: 'Stretch Chino Pants',
       image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=150&h=200',
       type: 'bottom',
-      gender: 'male'
+      gender: 'male',
+      retailer: 'Bonobos',
+      price: '$98',
+      link: 'https://bonobos.com'
     },
     {
       id: 'bottom3',
-      name: 'Skirt',
+      name: 'Pleated Mini Skirt',
       image: 'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=150&h=200',
       type: 'bottom',
-      gender: 'female'
+      gender: 'female',
+      retailer: 'Madewell',
+      price: '$78',
+      link: 'https://www.madewell.com'
     },
     {
       id: 'outer1',
-      name: 'Leather Jacket',
+      name: 'Leather Biker Jacket',
       image: 'https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=150&h=200',
       type: 'outer',
-      gender: 'unisex'
+      gender: 'unisex',
+      retailer: 'AllSaints',
+      price: '$429',
+      link: 'https://www.allsaints.com'
     },
     {
       id: 'outer2',
-      name: 'Blazer',
+      name: 'Ludlow Suit Jacket',
       image: 'https://images.unsplash.com/photo-1555069519-127aadedf1ee?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=150&h=200',
       type: 'outer',
-      gender: 'male'
+      gender: 'male',
+      retailer: 'J.Crew',
+      price: '$425',
+      link: 'https://www.jcrew.com'
     },
     {
       id: 'outer3',
-      name: 'Cardigan',
+      name: 'Cashmere Cardigan',
       image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-1.2.1&auto=format&fit=crop&q=80&w=150&h=200',
       type: 'outer',
-      gender: 'female'
+      gender: 'female',
+      retailer: 'Naadam',
+      price: '$195',
+      link: 'https://naadam.co'
     }
   ];
   
@@ -158,15 +187,14 @@ const VisualTryOn = () => {
     <div className="max-w-6xl mx-auto py-8">
       <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-semibold text-fashion-neutral-900 mb-4">
-          Visual Try-On Experience
+          Virtual Try-On Experience
         </h2>
         <p className="text-lg text-fashion-neutral-600 max-w-2xl mx-auto">
-          Upload your photo or choose an avatar to see how different styles look on you
+          Upload your photo or choose an avatar to see how clothes from top brands would look on you
         </p>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Panel - Upload/Avatar */}
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white rounded-xl shadow-sm border border-fashion-neutral-200 p-6">
             <h3 className="text-xl font-semibold text-fashion-neutral-900 mb-4">Choose Your Model</h3>
@@ -306,7 +334,6 @@ const VisualTryOn = () => {
           </div>
         </div>
         
-        {/* Center Panel - Visualization */}
         <div className="lg:col-span-1 flex flex-col">
           <div className="bg-white rounded-xl shadow-sm border border-fashion-neutral-200 p-6 flex-grow flex flex-col">
             <h3 className="text-xl font-semibold text-fashion-neutral-900 mb-4">Preview</h3>
@@ -323,8 +350,6 @@ const VisualTryOn = () => {
                     const item = clothingItems.find(i => i.id === itemId);
                     if (!item) return null;
                     
-                    // This is a simplified visualization - in a real app 
-                    // we would use more sophisticated techniques to apply clothes
                     return (
                       <div 
                         key={item.id}
@@ -361,7 +386,6 @@ const VisualTryOn = () => {
           </div>
         </div>
         
-        {/* Right Panel - Clothing Selection */}
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white rounded-xl shadow-sm border border-fashion-neutral-200 p-6">
             <h3 className="text-xl font-semibold text-fashion-neutral-900 mb-4">Choose Clothing</h3>
@@ -397,9 +421,20 @@ const VisualTryOn = () => {
                         </div>
                         <div className="p-2">
                           <p className="text-sm font-medium truncate">{item.name}</p>
-                          <p className="text-xs text-fashion-neutral-500">
-                            {item.gender === 'unisex' ? 'Unisex' : item.gender === 'male' ? 'Men' : 'Women'}
-                          </p>
+                          <div className="flex justify-between items-center mt-1">
+                            <p className="text-xs text-fashion-neutral-500">{item.retailer}</p>
+                            <p className="text-xs font-medium">{item.price}</p>
+                          </div>
+                          <a 
+                            href={item.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="mt-2 text-xs flex items-center text-fashion-primary hover:underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <ExternalLink size={10} className="mr-1" />
+                            View on site
+                          </a>
                         </div>
                       </div>
                     ))
@@ -431,9 +466,20 @@ const VisualTryOn = () => {
                         </div>
                         <div className="p-2">
                           <p className="text-sm font-medium truncate">{item.name}</p>
-                          <p className="text-xs text-fashion-neutral-500">
-                            {item.gender === 'unisex' ? 'Unisex' : item.gender === 'male' ? 'Men' : 'Women'}
-                          </p>
+                          <div className="flex justify-between items-center mt-1">
+                            <p className="text-xs text-fashion-neutral-500">{item.retailer}</p>
+                            <p className="text-xs font-medium">{item.price}</p>
+                          </div>
+                          <a 
+                            href={item.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="mt-2 text-xs flex items-center text-fashion-primary hover:underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <ExternalLink size={10} className="mr-1" />
+                            View on site
+                          </a>
                         </div>
                       </div>
                     ))
@@ -465,9 +511,20 @@ const VisualTryOn = () => {
                         </div>
                         <div className="p-2">
                           <p className="text-sm font-medium truncate">{item.name}</p>
-                          <p className="text-xs text-fashion-neutral-500">
-                            {item.gender === 'unisex' ? 'Unisex' : item.gender === 'male' ? 'Men' : 'Women'}
-                          </p>
+                          <div className="flex justify-between items-center mt-1">
+                            <p className="text-xs text-fashion-neutral-500">{item.retailer}</p>
+                            <p className="text-xs font-medium">{item.price}</p>
+                          </div>
+                          <a 
+                            href={item.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="mt-2 text-xs flex items-center text-fashion-primary hover:underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <ExternalLink size={10} className="mr-1" />
+                            View on site
+                          </a>
                         </div>
                       </div>
                     ))

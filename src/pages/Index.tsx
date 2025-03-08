@@ -1,7 +1,6 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, Ruler, Palette, Sparkles, Camera, Tshirt, User } from 'lucide-react';
+import { ArrowRight, Zap, Ruler, Palette, Sparkles, Camera, Shirt, User } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import AnimatedButton from '@/components/ui/AnimatedButton';
@@ -19,7 +18,6 @@ const Index = () => {
   const [surveyCompleted, setSurveyCompleted] = useState(false);
   const [activeTab, setActiveTab] = useState("main");
 
-  // Check if survey was completed previously
   useEffect(() => {
     const storedSurveyData = localStorage.getItem('fashionSurveyData');
     if (storedSurveyData) {
@@ -27,7 +25,6 @@ const Index = () => {
     }
   }, []);
 
-  // Animation observer for revealing elements on scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -57,7 +54,6 @@ const Index = () => {
     <div className="min-h-screen bg-white">
       <Navbar />
       
-      {/* Hero Section */}
       <section className="pt-32 pb-16 md:pb-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
@@ -87,7 +83,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Survey Modal */}
       {showSurvey && (
         <div className="fixed inset-0 bg-black/50 z-50 overflow-y-auto p-4 flex items-center justify-center">
           <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -99,7 +94,6 @@ const Index = () => {
         </div>
       )}
 
-      {/* Tabbed Content Section */}
       <section className="py-12 bg-fashion-neutral-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <Tabs defaultValue="main" className="w-full" onValueChange={setActiveTab}>
@@ -110,7 +104,6 @@ const Index = () => {
             </TabsList>
             
             <TabsContent value="main" className="mt-0">
-              {/* Features Section */}
               <div className="max-w-3xl mx-auto text-center mb-16 reveal">
                 <h2 className="text-3xl md:text-4xl font-semibold text-fashion-neutral-900 mb-4">
                   AI-Powered Fashion Features
@@ -120,7 +113,7 @@ const Index = () => {
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
                 <Link to="/style-profile">
                   <FeatureCard
                     icon={<Sparkles size={24} />}
@@ -147,15 +140,21 @@ const Index = () => {
                     animationDelay={300}
                   />
                 </Link>
+                
+                <Link to="/visual-try-on">
+                  <FeatureCard
+                    icon={<Camera size={24} />}
+                    title="Visual Try-On"
+                    description="See how clothes look on you before you buy with our virtual fitting room."
+                    animationDelay={400}
+                  />
+                </Link>
               </div>
               
-              {/* Style Profile Preview */}
               {activeTab === "main" && <StyleProfile />}
               
-              {/* Size Recommendation Preview */}
               {activeTab === "main" && <SizeRecommendation />}
               
-              {/* Color Analysis Preview */}
               {activeTab === "main" && <ColorAnalysis />}
             </TabsContent>
             
@@ -170,7 +169,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* CTA Section */}
       <section className="py-24 bg-fashion-neutral-900 text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center reveal">

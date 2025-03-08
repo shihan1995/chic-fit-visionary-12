@@ -37,7 +37,7 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-12">
+          <div className="hidden md:flex items-center space-x-8">
             <Link to="/style-profile" className="text-fashion-neutral-800 hover:text-fashion-neutral-600 transition-colors text-sm">
               Style Profile
             </Link>
@@ -46,6 +46,9 @@ const Navbar = () => {
             </Link>
             <Link to="/color-analysis" className="text-fashion-neutral-800 hover:text-fashion-neutral-600 transition-colors text-sm">
               Color Analysis
+            </Link>
+            <Link to="/visual-try-on" className="text-fashion-neutral-800 hover:text-fashion-neutral-600 transition-colors text-sm">
+              Visual Try-On
             </Link>
           </div>
 
@@ -98,6 +101,13 @@ const Navbar = () => {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Color Analysis
+            </Link>
+            <Link 
+              to="/visual-try-on" 
+              className="block py-3 text-fashion-neutral-800 hover:text-fashion-neutral-600 transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Visual Try-On
             </Link>
             <div className="flex space-x-6 pt-2">
               <button className="text-fashion-neutral-800 hover:text-fashion-neutral-600 transition-colors">

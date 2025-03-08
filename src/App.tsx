@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +13,7 @@ import Footer from "./components/layout/Footer";
 import StyleProfile from "./components/ui/StyleProfile";
 import SizeRecommendation from "./components/ui/SizeRecommendation";
 import ColorAnalysis from "./components/ui/ColorAnalysis";
+import VisualTryOn from "./components/visualization/VisualTryOn";
 
 const SimplePage = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -49,6 +49,14 @@ const ColorAnalysisPage = () => (
   </SimplePage>
 );
 
+const VisualTryOnPage = () => (
+  <SimplePage>
+    <div className="pt-24">
+      <VisualTryOn />
+    </div>
+  </SimplePage>
+);
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -62,6 +70,7 @@ const App = () => (
           <Route path="/style-profile" element={<StyleProfilePage />} />
           <Route path="/size-guide" element={<SizeGuidePage />} />
           <Route path="/color-analysis" element={<ColorAnalysisPage />} />
+          <Route path="/visual-try-on" element={<VisualTryOnPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
