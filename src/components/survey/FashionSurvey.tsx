@@ -17,9 +17,9 @@ interface FashionSurveyProps {
 }
 
 const steps = [
-  { id: 'color', title: 'Color Analysis', description: 'Let\'s analyze your skin tone and find your perfect colors' },
-  { id: 'size', title: 'Size Analysis', description: 'Help us find your perfect fit across different brands' },
-  { id: 'style', title: 'Style Preferences', description: 'Tell us about your personal style and preferences' },
+  { id: 'colorAnalysis', title: 'Color Analysis', description: 'Let\'s analyze your skin tone and find your perfect colors' },
+  { id: 'sizeAnalysis', title: 'Size Analysis', description: 'Help us find your perfect fit across different brands' },
+  { id: 'stylePreferences', title: 'Style Preferences', description: 'Tell us about your personal style and preferences' },
   { id: 'results', title: 'Your Style Profile', description: 'See your personalized fashion recommendations' },
 ];
 
@@ -88,7 +88,14 @@ const FashionSurvey = ({ onComplete, onDismiss, className }: FashionSurveyProps)
 
   const currentStepData = steps[currentStep];
   const isLastStep = currentStep === steps.length - 1;
-  const isStepCompleted = currentStep < 3 ? surveyData[currentStepData.id as keyof typeof surveyData]?.completed : true;
+  
+  // Update how we check if a step is completed
+  const isStepCompleted = () => {
+    if (currentStep === 3) return true; // Results step is always considered complete
+    
+    const stepKey = steps[currentStep].id as keyof typeof surveyData;
+    return surveyData[stepKey]?.completed || false;
+  };
 
   const slideVariants = {
     enter: (direction: number) => ({
@@ -180,7 +187,7 @@ const FashionSurvey = ({ onComplete, onDismiss, className }: FashionSurveyProps)
           variant="primary"
           icon={isLastStep ? <Check size={16} /> : <ArrowRight size={16} />}
           onClick={goToNextStep}
-          disabled={!isStepCompleted && currentStep < 3}
+          disabled={!isStepCompleted()}
         >
           {isLastStep ? 'Complete' : 'Continue'}
         </AnimatedButton>
