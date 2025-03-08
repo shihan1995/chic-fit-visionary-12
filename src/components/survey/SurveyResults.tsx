@@ -4,6 +4,7 @@ import { Sparkles, Palette, Ruler, Heart, ShoppingBag } from 'lucide-react';
 
 interface SurveyResultsProps {
   data: {
+    gender: string;
     colorAnalysis: {
       skinTone: string;
       undertone: string;
@@ -48,7 +49,63 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
   }, []);
   
   const generateRecommendedItems = () => {
-    const mockItems: RecommendedItem[] = [
+    // Tailor recommendations based on gender
+    const mockItems: RecommendedItem[] = data.gender === 'male' ? [
+      {
+        id: '1',
+        name: 'Wool Blend Overcoat',
+        image: 'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Nordstrom',
+        price: '$299',
+        match: 96,
+        category: 'Outerwear'
+      },
+      {
+        id: '2',
+        name: 'Slim Fit Selvedge Jeans',
+        image: 'https://images.unsplash.com/photo-1565084888279-aca607ecce0c?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'A.P.C.',
+        price: '$220',
+        match: 91,
+        category: 'Bottoms'
+      },
+      {
+        id: '3',
+        name: 'Merino Wool Sweater',
+        image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Uniqlo',
+        price: '$39.90',
+        match: 89,
+        category: 'Tops'
+      },
+      {
+        id: '4',
+        name: 'Leather Derby Shoes',
+        image: 'https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Allen Edmonds',
+        price: '$395',
+        match: 87,
+        category: 'Footwear'
+      },
+      {
+        id: '5',
+        name: 'Oxford Button-Down Shirt',
+        image: 'https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'J.Crew',
+        price: '$79.50',
+        match: 84,
+        category: 'Tops'
+      },
+      {
+        id: '6',
+        name: 'Leather Watch',
+        image: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Timex',
+        price: '$158',
+        match: 82,
+        category: 'Accessories'
+      }
+    ] : data.gender === 'female' ? [
       {
         id: '1',
         name: 'Oversized Wool Blend Coat',
@@ -60,7 +117,7 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
       },
       {
         id: '2',
-        name: 'Slim Fit Stretch Jeans',
+        name: 'High-Rise Slim Jeans',
         image: 'https://images.unsplash.com/photo-1582552938357-32b906df40cb?auto=format&fit=crop&q=80&w=300&h=400',
         brand: 'Levi\'s',
         price: '$89',
@@ -101,6 +158,62 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
         brand: 'Madewell',
         price: '$148',
         match: 82,
+        category: 'Accessories'
+      }
+    ] : [
+      // Non-binary or unspecified - gender-neutral items
+      {
+        id: '1',
+        name: 'Minimalist Parka',
+        image: 'https://images.unsplash.com/photo-1551232864-3f0890e580d9?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Everlane',
+        price: '$198',
+        match: 96,
+        category: 'Outerwear'
+      },
+      {
+        id: '2',
+        name: 'Relaxed Fit Jeans',
+        image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Levi\'s',
+        price: '$98',
+        match: 93,
+        category: 'Bottoms'
+      },
+      {
+        id: '3',
+        name: 'Organic Cotton T-Shirt',
+        image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Kotn',
+        price: '$35',
+        match: 90,
+        category: 'Tops'
+      },
+      {
+        id: '4',
+        name: 'Classic Canvas Sneakers',
+        image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Vans',
+        price: '$60',
+        match: 87,
+        category: 'Footwear'
+      },
+      {
+        id: '5',
+        name: 'Merino Wool Cardigan',
+        image: 'https://images.unsplash.com/photo-1584273143981-41c073dfe8f8?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'COS',
+        price: '$125',
+        match: 85,
+        category: 'Tops'
+      },
+      {
+        id: '6',
+        name: 'Canvas Tote Bag',
+        image: 'https://images.unsplash.com/photo-1622560480654-d96214fdc887?auto=format&fit=crop&q=80&w=300&h=400',
+        brand: 'Baggu',
+        price: '$52',
+        match: 83,
         category: 'Accessories'
       }
     ];
