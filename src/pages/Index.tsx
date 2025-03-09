@@ -6,6 +6,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import FashionSurvey from '@/components/survey/FashionSurvey';
+import ChatBot from '@/components/chat/ChatBot';
 
 const Index = () => {
   const [showSurvey, setShowSurvey] = useState(false);
@@ -86,6 +87,8 @@ const Index = () => {
           </div>
         </div>
       )}
+      
+      <ChatBot />
       
       <Footer />
     </div>
