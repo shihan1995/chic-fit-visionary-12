@@ -41,7 +41,7 @@ export const getStyleOptions = (gender: string) => {
         value: 'preppy', 
         label: 'Preppy', 
         description: 'Tailored, clean-cut, collegiate-inspired',
-        imageUrl: 'https://images.unsplash.com/photo-1589992896544-8389e29a1c0f?auto=format&fit=crop&q=80&w=300&h=400'
+        imageUrl: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?auto=format&fit=crop&q=80&w=300&h=400'
       },
       { 
         value: 'athleisure', 
@@ -75,7 +75,7 @@ export const getStyleOptions = (gender: string) => {
         value: 'preppy', 
         label: 'Preppy', 
         description: 'Tailored, clean-cut, collegiate-inspired',
-        imageUrl: 'https://images.unsplash.com/photo-1589992896544-8389e29a1c0f?auto=format&fit=crop&q=80&w=300&h=400'
+        imageUrl: 'https://images.unsplash.com/photo-1611042553484-d61f84d22784?auto=format&fit=crop&q=80&w=300&h=400'
       },
       { 
         value: 'athleisure', 
@@ -109,7 +109,7 @@ export const getStyleOptions = (gender: string) => {
         value: 'preppy', 
         label: 'Preppy', 
         description: 'Tailored, clean-cut, collegiate-inspired',
-        imageUrl: 'https://images.unsplash.com/photo-1589992896544-8389e29a1c0f?auto=format&fit=crop&q=80&w=300&h=400'
+        imageUrl: 'https://images.unsplash.com/photo-1638368972434-59b7233e0693?auto=format&fit=crop&q=80&w=300&h=400'
       },
       { 
         value: 'athleisure', 
@@ -143,4 +143,22 @@ export const getPopularBrands = (gender: string) => {
   } else {
     return [...commonBrands, 'Levi\'s', 'Calvin Klein', 'Patagonia', 'The North Face', 'Madewell'];
   }
+};
+
+// Style images mapping for profile visualization
+export const styleImages = {
+  'minimal': 'https://images.unsplash.com/photo-1609505848912-b7c3b8b4beda?auto=format&fit=crop&q=80&w=300&h=400',
+  'classic': 'https://images.unsplash.com/photo-1608234807905-4466023792f5?auto=format&fit=crop&q=80&w=300&h=400',
+  'bohemian': 'https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?auto=format&fit=crop&q=80&w=300&h=400',
+  'streetwear': 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=300&h=400',
+  'preppy': {
+    'male': 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?auto=format&fit=crop&q=80&w=300&h=400',
+    'female': 'https://images.unsplash.com/photo-1611042553484-d61f84d22784?auto=format&fit=crop&q=80&w=300&h=400',
+    'unisex': 'https://images.unsplash.com/photo-1638368972434-59b7233e0693?auto=format&fit=crop&q=80&w=300&h=400'
+  },
+  'romantic': 'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=300&h=400',
+  'edgy': 'https://images.unsplash.com/photo-1536766820879-059fec98ec0a?auto=format&fit=crop&q=80&w=300&h=400',
+  'athleisure': 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=300&h=400',
+  'business': 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?auto=format&fit=crop&q=80&w=300&h=400',
+  'casual': 'https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&q=80&w=300&h=400'
 };

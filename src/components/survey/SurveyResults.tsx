@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Sparkles, Palette, Ruler, Heart, ShoppingBag } from 'lucide-react';
+import { styleImages } from './utils/styleOptions';
 
 interface SurveyResultsProps {
   data: {
@@ -267,18 +268,19 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
     'preppy': 'Polished, collegiate, and traditional with a focus on clean lines and tailoring.',
     'romantic': 'Soft, feminine, and delicate with an emphasis on flowing silhouettes and details.',
     'edgy': 'Bold, unconventional, and statement-making with elements of rebellion.',
-    'athleisure': 'Performance-focused, comfortable, and sporty, balancing function with style.'
+    'athleisure': 'Performance-focused, comfortable, and sporty, balancing function with style.',
+    'business': 'Professional, refined and tailored with attention to detail and quality materials.',
+    'casual': 'Relaxed, comfortable everyday wear that still maintains a stylish appearance.'
   };
   
-  const styleImages: Record<string, string> = {
-    'minimal': 'https://images.unsplash.com/photo-1609505848912-b7c3b8b4beda?auto=format&fit=crop&q=80&w=300&h=400',
-    'classic': 'https://images.unsplash.com/photo-1608234807905-4466023792f5?auto=format&fit=crop&q=80&w=300&h=400',
-    'bohemian': 'https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?auto=format&fit=crop&q=80&w=300&h=400',
-    'streetwear': 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=300&h=400',
-    'preppy': 'https://images.unsplash.com/photo-1589992896544-8389e29a1c0f?auto=format&fit=crop&q=80&w=300&h=400',
-    'romantic': 'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=300&h=400',
-    'edgy': 'https://images.unsplash.com/photo-1536766820879-059fec98ec0a?auto=format&fit=crop&q=80&w=300&h=400',
-    'athleisure': 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=300&h=400'
+  const getStyleImage = (style: string, gender: string) => {
+    const styleImage = styleImages[style as keyof typeof styleImages];
+    
+    if (typeof styleImage === 'object' && styleImage !== null) {
+      return styleImage[gender as keyof typeof styleImage] || styleImage['unisex'];
+    }
+    
+    return styleImage || 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?auto=format&fit=crop&q=80&w=300&h=400';
   };
   
   if (isLoading) {
@@ -312,9 +314,14 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
           </div>
           <div className="w-full md:w-48 h-64 rounded-lg overflow-hidden border border-fashion-neutral-200">
             <img 
-              src={styleImages[data.stylePreferences.primaryStyle]} 
+              src={getStyleImage(data.stylePreferences.primaryStyle, data.genderSelection.gender)} 
               alt={data.stylePreferences.primaryStyle + " style"} 
               className="w-full h-full object-cover"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null; 
+                target.src = 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?auto=format&fit=crop&q=80&w=300&h=400';
+              }}
             />
           </div>
         </div>

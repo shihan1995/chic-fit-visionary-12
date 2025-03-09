@@ -42,6 +42,11 @@ const PrimaryStyleSelection: React.FC<PrimaryStyleSelectionProps> = ({
                 src={style.imageUrl} 
                 alt={style.label}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null;
+                  target.src = 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?auto=format&fit=crop&q=80&w=300&h=400';
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-3">
                 <h4 className="text-white font-medium">{style.label}</h4>
