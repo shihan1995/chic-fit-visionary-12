@@ -41,7 +41,7 @@ export const getStyleOptions = (gender: string) => {
         value: 'preppy', 
         label: 'Preppy', 
         description: 'Tailored, clean-cut, collegiate-inspired',
-        imageUrl: 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?auto=format&fit=crop&q=80&w=300&h=400'
+        imageUrl: 'https://images.unsplash.com/photo-1600518464441-9154a4dea21b?auto=format&fit=crop&q=80&w=300&h=400'
       },
       { 
         value: 'athleisure', 
@@ -75,7 +75,7 @@ export const getStyleOptions = (gender: string) => {
         value: 'preppy', 
         label: 'Preppy', 
         description: 'Tailored, clean-cut, collegiate-inspired',
-        imageUrl: 'https://images.unsplash.com/photo-1611042553484-d61f84d22784?auto=format&fit=crop&q=80&w=300&h=400'
+        imageUrl: 'https://images.unsplash.com/photo-1550614000-4895a10e1bfd?auto=format&fit=crop&q=80&w=300&h=400'
       },
       { 
         value: 'athleisure', 
@@ -109,7 +109,7 @@ export const getStyleOptions = (gender: string) => {
         value: 'preppy', 
         label: 'Preppy', 
         description: 'Tailored, clean-cut, collegiate-inspired',
-        imageUrl: 'https://images.unsplash.com/photo-1638368972434-59b7233e0693?auto=format&fit=crop&q=80&w=300&h=400'
+        imageUrl: 'https://images.unsplash.com/photo-1620118989031-a1d3d5a2dc11?auto=format&fit=crop&q=80&w=300&h=400'
       },
       { 
         value: 'athleisure', 
@@ -152,9 +152,9 @@ export const styleImages: Record<string, string | Record<string, string>> = {
   'bohemian': 'https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?auto=format&fit=crop&q=80&w=300&h=400',
   'streetwear': 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&q=80&w=300&h=400',
   'preppy': {
-    'male': 'https://images.unsplash.com/photo-1512484776495-a09d92e87c3b?auto=format&fit=crop&q=80&w=300&h=400',
-    'female': 'https://images.unsplash.com/photo-1611042553484-d61f84d22784?auto=format&fit=crop&q=80&w=300&h=400',
-    'unisex': 'https://images.unsplash.com/photo-1638368972434-59b7233e0693?auto=format&fit=crop&q=80&w=300&h=400'
+    'male': 'https://images.unsplash.com/photo-1600518464441-9154a4dea21b?auto=format&fit=crop&q=80&w=300&h=400',
+    'female': 'https://images.unsplash.com/photo-1550614000-4895a10e1bfd?auto=format&fit=crop&q=80&w=300&h=400',
+    'unisex': 'https://images.unsplash.com/photo-1620118989031-a1d3d5a2dc11?auto=format&fit=crop&q=80&w=300&h=400'
   },
   'romantic': 'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?auto=format&fit=crop&q=80&w=300&h=400',
   'edgy': 'https://images.unsplash.com/photo-1536766820879-059fec98ec0a?auto=format&fit=crop&q=80&w=300&h=400',
