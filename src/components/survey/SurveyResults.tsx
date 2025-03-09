@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Sparkles, Palette, Ruler, Heart, ShoppingBag } from 'lucide-react';
 import { styleImages } from './utils/styleOptions';
@@ -254,7 +253,6 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
       filteredItems = unisexItems;
     }
     
-    // Sort by match score
     filteredItems.sort((a, b) => b.match - a.match);
     
     setRecommendedItems(filteredItems.slice(0, 6));
@@ -273,14 +271,16 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
     'casual': 'Relaxed, comfortable everyday wear that still maintains a stylish appearance.'
   };
   
-  const getStyleImage = (style: string, gender: string) => {
-    const styleImage = styleImages[style as keyof typeof styleImages];
+  const getStyleImage = (style: string, gender: string): string => {
+    const styleImage = styleImages[style];
     
     if (typeof styleImage === 'object' && styleImage !== null) {
-      return styleImage[gender as keyof typeof styleImage] || styleImage['unisex'];
+      return styleImage[gender as keyof typeof styleImage] || 
+             styleImage['unisex'] as string || 
+             'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&q=80&w=300&h=400';
     }
     
-    return styleImage || 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?auto=format&fit=crop&q=80&w=300&h=400';
+    return styleImage as string || 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&q=80&w=300&h=400';
   };
   
   if (isLoading) {
@@ -320,7 +320,7 @@ const SurveyResults = ({ data }: SurveyResultsProps) => {
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.onerror = null; 
-                target.src = 'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?auto=format&fit=crop&q=80&w=300&h=400';
+                target.src = 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&q=80&w=300&h=400';
               }}
             />
           </div>

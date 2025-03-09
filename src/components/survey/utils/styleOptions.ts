@@ -146,7 +146,7 @@ export const getPopularBrands = (gender: string) => {
 };
 
 // Style images mapping for profile visualization
-export const styleImages = {
+export const styleImages: Record<string, string | Record<string, string>> = {
   'minimal': 'https://images.unsplash.com/photo-1609505848912-b7c3b8b4beda?auto=format&fit=crop&q=80&w=300&h=400',
   'classic': 'https://images.unsplash.com/photo-1608234807905-4466023792f5?auto=format&fit=crop&q=80&w=300&h=400',
   'bohemian': 'https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?auto=format&fit=crop&q=80&w=300&h=400',
